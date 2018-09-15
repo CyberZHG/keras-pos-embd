@@ -62,8 +62,7 @@ class PositionEmbedding(keras.layers.Layer):
             initializer=self.embeddings_initializer,
             name='embeddings',
             regularizer=self.embeddings_regularizer,
-            constraint=self.embeddings_constraint,
-            dtype=self.dtype)
+            constraint=self.embeddings_constraint)
         super(PositionEmbedding, self).build(input_shape)
 
     def compute_mask(self, inputs, mask=None):

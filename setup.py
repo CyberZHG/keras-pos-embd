@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='keras-pos-embd',
-    version='0.2',
+    version='0.3',
     packages=['keras_pos_embd'],
     url='https://github.com/CyberZHG/keras-pos-embd',
     license='MIT',

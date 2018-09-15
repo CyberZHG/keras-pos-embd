@@ -20,16 +20,12 @@ from keras_pos_embd import PositionEmbedding
 
 model = keras.models.Sequential()
 model.add(PositionEmbedding(
-    input_dim=10,
-    output_dim=2,
-    mask_zero=10000,
+    input_dim=10,     # The maximum absolute value of positions.
+    output_dim=2,     # The dimension of embeddings.
+    mask_zero=10000,  # The index that presents padding (because `0` will be used in relative positioning).
     input_shape=(None,),
     name='Pos-Embd',
 ))
 ```
 
-Arguments:
-
-* `input_dim`: The maximum absolute value of positions.
-* `output_dim`: The dimension of embeddings.
-* `mask_zero`: The index that presents padding (because `0` will be used in relative positioning).
+(Note that you don't need to enable `mask_zero` if you would concatenate other layers like word embeddings with masks)
