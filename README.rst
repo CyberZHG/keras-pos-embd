@@ -1,6 +1,6 @@
 
-Keras Piecewise
-===============
+Keras Position Embedding
+========================
 
 
 .. image:: https://travis-ci.org/CyberZHG/keras-pos-embd.svg
@@ -30,4 +30,23 @@ Install
 Usage
 -----
 
-``python``
+.. code-block:: python
+
+   import keras
+   from keras_pos_embd import PositionEmbedding
+
+   model = keras.models.Sequential()
+   model.add(PositionEmbedding(
+       input_dim=10,
+       output_dim=2,
+       mask_zero=10000,
+       input_shape=(None,),
+       name='Pos-Embd',
+   ))
+
+Arguments:
+
+
+* ``input_dim``\ : The maximum absolute value of positions.
+* ``output_dim``\ : The dimension of embeddings.
+* ``mask_zero``\ : The index that presents padding (because ``0`` will be used in relative positioning).
