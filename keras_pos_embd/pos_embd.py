@@ -32,8 +32,6 @@ class PositionEmbedding(keras.layers.Layer):
         :param mask_zero: The index that represents padding.
         :param kwargs:
         """
-        super(PositionEmbedding, self).__init__(**kwargs)
-
         self.input_dim = input_dim
         self.output_dim = output_dim
         self.embeddings_initializer = keras.initializers.get(embeddings_initializer)
@@ -44,6 +42,7 @@ class PositionEmbedding(keras.layers.Layer):
         self.supports_masking = mask_zero is not False
 
         self.embeddings = None
+        super(PositionEmbedding, self).__init__(**kwargs)
 
     def get_config(self):
         config = {'input_dim': self.input_dim,

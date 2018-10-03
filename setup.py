@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='keras-pos-embd',
-    version='0.3',
-    packages=['keras_pos_embd'],
+    version='0.4.0',
+    packages=find_packages(),
     url='https://github.com/CyberZHG/keras-pos-embd',
     license='MIT',
     author='CyberZHG',
