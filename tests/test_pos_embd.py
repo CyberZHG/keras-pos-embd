@@ -18,6 +18,7 @@ class TestPosEmbd(unittest.TestCase):
         model.add(PositionEmbedding(
             input_dim=10,
             output_dim=2,
+            mode=PositionEmbedding.MODE_EXPAND,
             input_shape=(None,),
             weights=[weights],
             name='Pos-Embd',
@@ -25,7 +26,7 @@ class TestPosEmbd(unittest.TestCase):
         model.compile('adam', keras.losses.mae, {})
         model_path = os.path.join(tempfile.gettempdir(), 'test_pos_embd_%f.h5' % random.random())
         model.save(model_path)
-        model = keras.models.load_model(model_path, custom_objects=PositionEmbedding.get_custom_objects())
+        model = keras.models.load_model(model_path, custom_objects={'PositionEmbedding': PositionEmbedding})
         model.summary()
         predicts = model.predict(indices)
         expected = np.asarray([[
@@ -43,6 +44,7 @@ class TestPosEmbd(unittest.TestCase):
         model.add(PositionEmbedding(
             input_dim=10,
             output_dim=2,
+            mode=PositionEmbedding.MODE_EXPAND,
             mask_zero=100,
             input_shape=(None,),
             weights=[weights],
@@ -52,7 +54,7 @@ class TestPosEmbd(unittest.TestCase):
         model.compile('adam', keras.losses.mae, [keras.metrics.mae])
         model_path = os.path.join(tempfile.gettempdir(), 'keras_pos_embd_%f.h5' % random.random())
         model.save(model_path)
-        model = keras.models.load_model(model_path, custom_objects=PositionEmbedding.get_custom_objects())
+        model = keras.models.load_model(model_path, custom_objects={'PositionEmbedding': PositionEmbedding})
         model.summary()
         predicts = model.predict(indices)
         expected = np.asarray([[
@@ -61,3 +63,49 @@ class TestPosEmbd(unittest.TestCase):
             [0.6, -0.2],
         ]])
         self.assertTrue(np.allclose(expected, predicts))
+
+    def test_add(self):
+        inputs = np.ones((1, 5, 2))
+        weights = np.random.random((10, 2))
+        weights[1, :] = np.asarray([0.25, 0.1])
+        weights[3, :] = np.asarray([0.6, -0.2])
+        model = keras.models.Sequential()
+        model.add(PositionEmbedding(
+            input_dim=10,
+            output_dim=2,
+            mode=PositionEmbedding.MODE_ADD,
+            input_shape=(None, 2),
+            weights=[weights],
+            name='Pos-Embd',
+        ))
+        model.compile('adam', keras.losses.mae, {})
+        model_path = os.path.join(tempfile.gettempdir(), 'test_pos_embd_%f.h5' % random.random())
+        model.save(model_path)
+        model = keras.models.load_model(model_path, custom_objects={'PositionEmbedding': PositionEmbedding})
+        model.summary()
+        predicts = model.predict(inputs)
+        self.assertTrue(np.allclose([1.25, 1.1], predicts[0][1]), predicts[0])
+        self.assertTrue(np.allclose([1.6, 0.8], predicts[0][3]), predicts[0])
+
+    def test_concat(self):
+        inputs = np.ones((1, 5, 2))
+        weights = np.random.random((10, 2))
+        weights[1, :] = np.asarray([0.25, 0.1])
+        weights[3, :] = np.asarray([0.6, -0.2])
+        model = keras.models.Sequential()
+        model.add(PositionEmbedding(
+            input_dim=10,
+            output_dim=2,
+            mode=PositionEmbedding.MODE_CONCAT,
+            input_shape=(None, 2),
+            weights=[weights],
+            name='Pos-Embd',
+        ))
+        model.compile('adam', keras.losses.mae, {})
+        model_path = os.path.join(tempfile.gettempdir(), 'test_pos_embd_%f.h5' % random.random())
+        model.save(model_path)
+        model = keras.models.load_model(model_path, custom_objects={'PositionEmbedding': PositionEmbedding})
+        model.summary()
+        predicts = model.predict(inputs)
+        self.assertTrue(np.allclose([1.0, 1.0, 0.25, 0.1], predicts[0][1]), predicts[0])
+        self.assertTrue(np.allclose([1.0, 1.0, 0.6, -0.2], predicts[0][3]), predicts[0])

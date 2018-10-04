@@ -35,7 +35,7 @@ model.summary()
 
 ### Sin & Cos Embedding
 
-The [sine and cosine embedding](https://arxiv.org/pdf/1706.03762) has no trainable weights. The layer has two modes, it works just like `PositionEmbedding` in `expand` mode:
+The [sine and cosine embedding](https://arxiv.org/pdf/1706.03762) has no trainable weights. The layer has three modes, it works just like `PositionEmbedding` in `expand` mode:
 
 ```python
 import keras
