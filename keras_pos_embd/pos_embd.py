@@ -127,7 +127,7 @@ class PositionEmbedding(keras.layers.Layer):
             batch_size, seq_len, output_dim = input_shape[0], input_shape[1], self.output_dim
         pos_embeddings = K.tile(
             K.expand_dims(self.embeddings[:seq_len, :self.output_dim], axis=0),
-            K.stack([batch_size, 1, 1]),
+            [batch_size, 1, 1],
         )
         if self.mode == self.MODE_ADD:
             return inputs + pos_embeddings
