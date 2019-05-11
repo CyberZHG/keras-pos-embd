@@ -1,10 +1,9 @@
 import unittest
 import os
 import tempfile
-import random
-import keras
 import numpy as np
 import tensorflow as tf
+from keras_pos_embd.backend import keras
 from keras_pos_embd import TrigPosEmbedding
 
 
@@ -24,8 +23,8 @@ class TestSinCosPosEmbd(unittest.TestCase):
             )
 
     def test_brute(self):
-        seq_len = random.randint(1, 10)
-        embd_dim = random.randint(1, 20) * 2
+        seq_len = np.random.randint(1, 10)
+        embd_dim = np.random.randint(1, 20) * 2
         indices = np.expand_dims(np.arange(seq_len), 0)
         model = keras.models.Sequential()
         model.add(TrigPosEmbedding(
@@ -35,7 +34,7 @@ class TestSinCosPosEmbd(unittest.TestCase):
             name='Pos-Embd',
         ))
         model.compile('adam', keras.losses.mae, {})
-        model_path = os.path.join(tempfile.gettempdir(), 'test_trig_pos_embd_%f.h5' % random.random())
+        model_path = os.path.join(tempfile.gettempdir(), 'test_trig_pos_embd_%f.h5' % np.random.random())
         model.save(model_path)
         model = keras.models.load_model(model_path, custom_objects={'TrigPosEmbedding': TrigPosEmbedding})
         model.summary()
@@ -52,8 +51,8 @@ class TestSinCosPosEmbd(unittest.TestCase):
                 self.assertAlmostEqual(expect, actual, places=6, msg=(embd_dim, i, j, expect, actual))
 
     def test_add(self):
-        seq_len = random.randint(1, 10)
-        embed_dim = random.randint(1, 20) * 2
+        seq_len = np.random.randint(1, 10)
+        embed_dim = np.random.randint(1, 20) * 2
         inputs = np.ones((1, seq_len, embed_dim))
         model = keras.models.Sequential()
         model.add(TrigPosEmbedding(
@@ -62,7 +61,7 @@ class TestSinCosPosEmbd(unittest.TestCase):
             name='Pos-Embd',
         ))
         model.compile('adam', keras.losses.mae, {})
-        model_path = os.path.join(tempfile.gettempdir(), 'test_trig_pos_embd_%f.h5' % random.random())
+        model_path = os.path.join(tempfile.gettempdir(), 'test_trig_pos_embd_%f.h5' % np.random.random())
         model.save(model_path)
         model = keras.models.load_model(model_path, custom_objects={'TrigPosEmbedding': TrigPosEmbedding})
         model.summary()
@@ -79,9 +78,9 @@ class TestSinCosPosEmbd(unittest.TestCase):
                 self.assertAlmostEqual(expect, actual, places=6, msg=(embed_dim, i, j, expect, actual))
 
     def test_concat(self):
-        seq_len = random.randint(1, 10)
-        feature_dim = random.randint(1, 20)
-        embed_dim = random.randint(1, 20) * 2
+        seq_len = np.random.randint(1, 10)
+        feature_dim = np.random.randint(1, 20)
+        embed_dim = np.random.randint(1, 20) * 2
         inputs = np.ones((1, seq_len, feature_dim))
         model = keras.models.Sequential()
         model.add(TrigPosEmbedding(
@@ -91,7 +90,7 @@ class TestSinCosPosEmbd(unittest.TestCase):
             name='Pos-Embd',
         ))
         model.compile('adam', keras.losses.mae, {})
-        model_path = os.path.join(tempfile.gettempdir(), 'test_trig_pos_embd_%f.h5' % random.random())
+        model_path = os.path.join(tempfile.gettempdir(), 'test_trig_pos_embd_%f.h5' % np.random.random())
         model.save(model_path)
         model = keras.models.load_model(model_path, custom_objects={'TrigPosEmbedding': TrigPosEmbedding})
         model.summary()

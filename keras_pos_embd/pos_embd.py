@@ -1,5 +1,5 @@
-import keras
-import keras.backend as K
+from .backend import keras
+from .backend import backend as K
 
 
 class PositionEmbedding(keras.layers.Layer):

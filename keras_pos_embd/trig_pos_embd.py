@@ -1,5 +1,5 @@
-import keras
-import keras.backend as K
+from .backend import keras
+from .backend import backend as K
 
 
 class TrigPosEmbedding(keras.layers.Layer):
@@ -72,17 +72,17 @@ class TrigPosEmbedding(keras.layers.Layer):
         input_shape = K.shape(inputs)
         if self.mode == self.MODE_ADD:
             batch_size, seq_len, output_dim = input_shape[0], input_shape[1], input_shape[2]
-            pos_input = K.tile(K.expand_dims(K.arange(seq_len), axis=0), [batch_size, 1])
+            pos_input = K.tile(K.expand_dims(K.arange(0, seq_len), axis=0), [batch_size, 1])
         elif self.mode == self.MODE_CONCAT:
             batch_size, seq_len, output_dim = input_shape[0], input_shape[1], self.output_dim
-            pos_input = K.tile(K.expand_dims(K.arange(seq_len), axis=0), [batch_size, 1])
+            pos_input = K.tile(K.expand_dims(K.arange(0, seq_len), axis=0), [batch_size, 1])
         else:
             output_dim = self.output_dim
             pos_input = inputs
         if K.dtype(pos_input) != K.floatx():
             pos_input = K.cast(pos_input, K.floatx())
-        evens = K.arange(output_dim // 2) * 2
-        odds = K.arange(output_dim // 2) * 2 + 1
+        evens = K.arange(0, output_dim // 2) * 2
+        odds = K.arange(0, output_dim // 2) * 2 + 1
         even_embd = K.sin(
             K.dot(
                 K.expand_dims(pos_input, -1),
