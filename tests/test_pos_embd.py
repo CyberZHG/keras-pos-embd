@@ -23,7 +23,7 @@ class TestPosEmbd(unittest.TestCase):
             weights=[weights],
             name='Pos-Embd',
         ))
-        model.compile('adam', keras.losses.mae, {})
+        model.compile('adam', 'mse')
         model_path = os.path.join(tempfile.gettempdir(), 'test_pos_embd_%f.h5' % random.random())
         model.save(model_path)
         model = keras.models.load_model(model_path, custom_objects={'PositionEmbedding': PositionEmbedding})
@@ -51,7 +51,7 @@ class TestPosEmbd(unittest.TestCase):
             name='Pos-Embd',
         ))
         model.build()
-        model.compile('adam', keras.losses.mae, [keras.metrics.mae])
+        model.compile('adam', 'mse')
         model_path = os.path.join(tempfile.gettempdir(), 'keras_pos_embd_%f.h5' % random.random())
         model.save(model_path)
         model = keras.models.load_model(model_path, custom_objects={'PositionEmbedding': PositionEmbedding})
@@ -78,7 +78,7 @@ class TestPosEmbd(unittest.TestCase):
             weights=[weights],
             name='Pos-Embd',
         ))
-        model.compile('adam', keras.losses.mae, {})
+        model.compile('adam', 'mse')
         model_path = os.path.join(tempfile.gettempdir(), 'test_pos_embd_%f.h5' % random.random())
         model.save(model_path)
         model = keras.models.load_model(model_path, custom_objects={'PositionEmbedding': PositionEmbedding})
@@ -101,7 +101,7 @@ class TestPosEmbd(unittest.TestCase):
             weights=[weights],
             name='Pos-Embd',
         ))
-        model.compile('adam', keras.losses.mae, {})
+        model.compile('adam', 'mse')
         model_path = os.path.join(tempfile.gettempdir(), 'test_pos_embd_%f.h5' % random.random())
         model.save(model_path)
         model = keras.models.load_model(model_path, custom_objects={'PositionEmbedding': PositionEmbedding})

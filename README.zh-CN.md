@@ -10,17 +10,19 @@
 
 \[[中文](https://github.com/CyberZHG/keras-pos-embd/blob/master/README.zh-CN.md)|[English](https://github.com/CyberZHG/keras-pos-embd/blob/master/README.md)\]
 
-Position embedding layers in Keras.
+位置嵌入层。
 
-## Install
+## 安装
 
 ```bash
 pip install keras-pos-embd
 ```
 
-## Usage
+## 使用
 
-### Trainable Embedding
+### 可训练位置嵌入
+
+基本使用方法和嵌入层一致，模式使用`PositionEmbedding.MODE_EXPAND`：
 
 ```python
 import keras
@@ -29,16 +31,16 @@ from keras_pos_embd import PositionEmbedding
 model = keras.models.Sequential()
 model.add(PositionEmbedding(
     input_shape=(None,),
-    input_dim=10,     # The maximum absolute value of positions.
-    output_dim=2,     # The dimension of embeddings.
-    mask_zero=10000,  # The index that presents padding (because `0` will be used in relative positioning).
+    input_dim=10,     # 最大的位置的绝对值
+    output_dim=2,     # 嵌入的维度
+    mask_zero=10000,  # 作为padding的位置下标（因为0被占用了）
     mode=PositionEmbedding.MODE_EXPAND,
 ))
 model.compile('adam', 'mse')
 model.summary()
 ```
 
-Note that you don't need to enable `mask_zero` if you want to add/concatenate other layers like word embeddings with masks:
+如果跟在嵌入层使用，则不需要设置`mask_zero`。嵌入特征与位置嵌入相加使用`PositionEmbedding.MODE_ADD`模式，相连使用`PositionEmbedding.MODE_CONCAT`模式：
 
 ```python
 import keras
@@ -60,9 +62,9 @@ model.compile('adam', 'mse')
 model.summary()
 ```
 
-### Sin & Cos Embedding
+### 三角函数嵌入
 
-The [sine and cosine embedding](https://arxiv.org/pdf/1706.03762) has no trainable weights. The layer has three modes, it works just like `PositionEmbedding` in `expand` mode:
+[三角函数嵌入](https://arxiv.org/pdf/1706.03762)没有可训练权重，使用方法和`PositionEmbedding`相同，不需要输入的维度：
 
 ```python
 import keras
@@ -71,14 +73,14 @@ from keras_pos_embd import TrigPosEmbedding
 model = keras.models.Sequential()
 model.add(TrigPosEmbedding(
     input_shape=(None,),
-    output_dim=30,                      # The dimension of embeddings.
-    mode=TrigPosEmbedding.MODE_EXPAND,  # Use `expand` mode
+    output_dim=30,
+    mode=TrigPosEmbedding.MODE_EXPAND,
 ))
 model.compile('adam', 'mse')
 model.summary()
 ```
 
-If you want to add this embedding to existed embedding, then there is no need to add a position input in `add` mode:
+相加模式：
 
 ```python
 import keras

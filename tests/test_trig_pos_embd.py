@@ -33,7 +33,7 @@ class TestSinCosPosEmbd(unittest.TestCase):
             output_dim=embd_dim,
             name='Pos-Embd',
         ))
-        model.compile('adam', keras.losses.mae, {})
+        model.compile('adam', 'mse')
         model_path = os.path.join(tempfile.gettempdir(), 'test_trig_pos_embd_%f.h5' % np.random.random())
         model.save(model_path)
         model = keras.models.load_model(model_path, custom_objects={'TrigPosEmbedding': TrigPosEmbedding})
@@ -60,7 +60,7 @@ class TestSinCosPosEmbd(unittest.TestCase):
             mode=TrigPosEmbedding.MODE_ADD,
             name='Pos-Embd',
         ))
-        model.compile('adam', keras.losses.mae, {})
+        model.compile('adam', 'mse')
         model_path = os.path.join(tempfile.gettempdir(), 'test_trig_pos_embd_%f.h5' % np.random.random())
         model.save(model_path)
         model = keras.models.load_model(model_path, custom_objects={'TrigPosEmbedding': TrigPosEmbedding})
@@ -89,7 +89,7 @@ class TestSinCosPosEmbd(unittest.TestCase):
             mode=TrigPosEmbedding.MODE_CONCAT,
             name='Pos-Embd',
         ))
-        model.compile('adam', keras.losses.mae, {})
+        model.compile('adam', 'mse')
         model_path = os.path.join(tempfile.gettempdir(), 'test_trig_pos_embd_%f.h5' % np.random.random())
         model.save(model_path)
         model = keras.models.load_model(model_path, custom_objects={'TrigPosEmbedding': TrigPosEmbedding})
