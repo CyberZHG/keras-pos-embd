@@ -1,8 +1,9 @@
-import unittest
 import os
 import tempfile
+import unittest
+
 import numpy as np
-import tensorflow as tf
+
 from keras_pos_embd.backend import keras
 from keras_pos_embd import TrigPosEmbedding
 
@@ -39,15 +40,13 @@ class TestSinCosPosEmbd(unittest.TestCase):
         model = keras.models.load_model(model_path, custom_objects={'TrigPosEmbedding': TrigPosEmbedding})
         model.summary()
         predicts = model.predict(indices)[0].tolist()
-        sess = tf.Session()
         for i in range(seq_len):
             for j in range(embd_dim):
                 actual = predicts[i][j]
                 if j % 2 == 0:
-                    expect = tf.sin(i / tf.pow(10000.0, float(j) / embd_dim))
+                    expect = np.sin(i / 10000.0 ** (float(j) / embd_dim))
                 else:
-                    expect = tf.cos(i / tf.pow(10000.0, (j - 1.0) / embd_dim))
-                expect = expect.eval(session=sess)
+                    expect = np.cos(i / 10000.0 ** ((j - 1.0) / embd_dim))
                 self.assertAlmostEqual(expect, actual, places=6, msg=(embd_dim, i, j, expect, actual))
 
     def test_add(self):
@@ -66,15 +65,13 @@ class TestSinCosPosEmbd(unittest.TestCase):
         model = keras.models.load_model(model_path, custom_objects={'TrigPosEmbedding': TrigPosEmbedding})
         model.summary()
         predicts = model.predict(inputs)[0].tolist()
-        sess = tf.Session()
         for i in range(seq_len):
             for j in range(embed_dim):
                 actual = predicts[i][j]
                 if j % 2 == 0:
-                    expect = 1.0 + tf.sin(i / tf.pow(10000.0, float(j) / embed_dim))
+                    expect = 1.0 + np.sin(i / 10000.0 ** (float(j) / embed_dim))
                 else:
-                    expect = 1.0 + tf.cos(i / tf.pow(10000.0, (j - 1.0) / embed_dim))
-                expect = expect.eval(session=sess)
+                    expect = 1.0 + np.cos(i / 10000.0 ** ((j - 1.0) / embed_dim))
                 self.assertAlmostEqual(expect, actual, places=6, msg=(embed_dim, i, j, expect, actual))
 
     def test_concat(self):
@@ -95,13 +92,11 @@ class TestSinCosPosEmbd(unittest.TestCase):
         model = keras.models.load_model(model_path, custom_objects={'TrigPosEmbedding': TrigPosEmbedding})
         model.summary()
         predicts = model.predict(inputs)[0].tolist()
-        sess = tf.Session()
         for i in range(seq_len):
             for j in range(embed_dim):
                 actual = predicts[i][feature_dim + j]
                 if j % 2 == 0:
-                    expect = tf.sin(i / tf.pow(10000.0, float(j) / embed_dim))
+                    expect = np.sin(i / 10000.0 ** (float(j) / embed_dim))
                 else:
-                    expect = tf.cos(i / tf.pow(10000.0, (j - 1.0) / embed_dim))
-                expect = expect.eval(session=sess)
+                    expect = np.cos(i / 10000.0 ** ((j - 1.0) / embed_dim))
                 self.assertAlmostEqual(expect, actual, places=6, msg=(embed_dim, i, j, expect, actual))
