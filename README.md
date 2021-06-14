@@ -4,10 +4,6 @@
 [![Coverage](https://coveralls.io/repos/github/CyberZHG/keras-pos-embd/badge.svg?branch=master)](https://coveralls.io/github/CyberZHG/keras-pos-embd)
 [![Version](https://img.shields.io/pypi/v/keras-pos-embd.svg)](https://pypi.org/project/keras-pos-embd/)
 
-![](https://img.shields.io/badge/keras-tensorflow-blue.svg)
-![](https://img.shields.io/badge/keras-theano-blue.svg)
-![](https://img.shields.io/badge/keras-tf.keras-blue.svg)
-
 \[[中文](https://github.com/CyberZHG/keras-pos-embd/blob/master/README.zh-CN.md)|[English](https://github.com/CyberZHG/keras-pos-embd/blob/master/README.md)\]
 
 Position embedding layers in Keras.
