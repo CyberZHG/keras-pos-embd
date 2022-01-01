@@ -1,7 +1,5 @@
 # Keras Position Embedding
 
-[![Travis](https://travis-ci.org/CyberZHG/keras-pos-embd.svg)](https://travis-ci.org/CyberZHG/keras-pos-embd)
-[![Coverage](https://coveralls.io/repos/github/CyberZHG/keras-pos-embd/badge.svg?branch=master)](https://coveralls.io/github/CyberZHG/keras-pos-embd)
 [![Version](https://img.shields.io/pypi/v/keras-pos-embd.svg)](https://pypi.org/project/keras-pos-embd/)
 
 \[[中文](https://github.com/CyberZHG/keras-pos-embd/blob/master/README.zh-CN.md)|[English](https://github.com/CyberZHG/keras-pos-embd/blob/master/README.md)\]
@@ -19,7 +17,7 @@ pip install keras-pos-embd
 ### Trainable Embedding
 
 ```python
-import keras
+from tensorflow import keras
 from keras_pos_embd import PositionEmbedding
 
 model = keras.models.Sequential()
@@ -37,7 +35,7 @@ model.summary()
 Note that you don't need to enable `mask_zero` if you want to add/concatenate other layers like word embeddings with masks:
 
 ```python
-import keras
+from tensorflow import keras
 from keras_pos_embd import PositionEmbedding
 
 model = keras.models.Sequential()
@@ -61,7 +59,7 @@ model.summary()
 The [sine and cosine embedding](https://arxiv.org/pdf/1706.03762) has no trainable weights. The layer has three modes, it works just like `PositionEmbedding` in `expand` mode:
 
 ```python
-import keras
+from tensorflow import keras
 from keras_pos_embd import TrigPosEmbedding
 
 model = keras.models.Sequential()
@@ -77,7 +75,7 @@ model.summary()
 If you want to add this embedding to existed embedding, then there is no need to add a position input in `add` mode:
 
 ```python
-import keras
+from tensorflow import keras
 from keras_pos_embd import TrigPosEmbedding
 
 model = keras.models.Sequential()

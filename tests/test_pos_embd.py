@@ -2,8 +2,10 @@ import unittest
 import os
 import tempfile
 import random
+
 import numpy as np
-from keras_pos_embd.backend import keras
+from tensorflow import keras
+
 from keras_pos_embd import PositionEmbedding
 
 

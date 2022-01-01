@@ -3,8 +3,8 @@ import tempfile
 import unittest
 
 import numpy as np
+from tensorflow import keras
 
-from keras_pos_embd.backend import keras
 from keras_pos_embd import TrigPosEmbedding
 
 
